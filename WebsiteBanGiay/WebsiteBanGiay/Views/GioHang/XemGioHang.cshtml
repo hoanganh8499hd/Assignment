@@ -1,0 +1,199 @@
+﻿@using WebsiteBanGiay.Models;
+
+@model List<ItemGioHang>
+@{
+    ViewBag.Title = "XemGioHang";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+
+
+@if (Model == null || Model.Count == 0)
+{
+    <section id="cart-view">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div class="cart-view-area">
+                        <div class="cart-view-table">
+                            <form action="">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã Sản Phẩm</th>
+                                                <th>Hình Ảnh</th>
+                                                <th>Tên Sản Phẩm</th>
+                                                <th>Size</th>
+                                                <th>Đơn Giá</th>
+                                                <th>Số Lượng</th>
+                                                <th>Thành Tiền</th>
+                                                <th>Cập Nhật</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                            <!-- Cart Total view -->
+                            <div class="cart-view-total">
+                                <h4>Số Tiền Cần Thanh Toán</h4>
+                                <table class="aa-totals-table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Tổng Sản Phẩm</th>
+                                            <td>@ViewBag.TongSoLuong</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tổng Tiền</th>
+                                            <td>@ViewBag.TongTien.ToString("#,##") VNĐ</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @if (Session["TaiKhoan"] != null)
+                                {
+                                    @*<div class="divDatHang" style="text-align:right;">
+                                            @using (Html.BeginForm("DatHang", "GioHang"))
+                                            {
+                                                <input type="submit" value="Đặt hàng" class="aa-cart-view-btn" />
+                                                @Html.ActionLink("Mua tiếp", "Index", "Home", new { @class = "btn btn-success" })
+                                            }
+
+                                        </div>*@
+                                    <a href="@Url.Action("Index","Home")" class="aa-cart-view-btn">Bạn Cần Thêm Sản Phẩm Để Mua Hàng</a>
+                                    if (@TempData["DatHangThanhCong"] != null)
+                                    {
+                            <a href="@Url.Action("Index","Home")" class="aa-cart-view-btn">@TempData["DatHangThanhCong"].ToString()</a>
+                                    }
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Index","Home")" class="aa-cart-view-btn">Bạn Cần Thêm Sản Phẩm Để Mua Hàng</a>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section id="cart-view">
+        <div class="container">
+            <div class="row">
+                <div class="cart-view-area">
+                    <div class="cart-view-table">
+                        <div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Mã Sản Phẩm</th>
+                                            <th>Hình Ảnh</th>
+                                            <th>Tên Sản Phẩm</th>
+                                            <th>Size</th>
+                                            <th>Đơn Giá</th>
+                                            <th>Số Lượng</th>
+                                            <th>Thành Tiền</th>
+                                            <th>Cập Nhật</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+                                            <tr>
+                                                <td width="100">@item.MaSP</td>
+                                                <td><img src="@Url.Content("~/Content/HinhAnh/SanPham/" + item.HinhAnh)" width="100" height="100" /></td>
+                                                <td>@item.TenSP</td>
+                                                <td>@item.Size</td>
+                                                <td>@item.DonGia.ToString("#,##") VND</td>
+                                                <td>
+                                                    @using (Html.BeginForm("SuaGioHang", "GioHang", new { @MaSP = item.MaSP, @SizeSP = item.Size }))
+                                                    {
+                                                        <input type="number" min="1" name="txtQuanlity" class="form-control text-center" value="@item.SoLuong">
+                                                    <td>@item.ThanhTien.ToString("#,##") VND</td>
+                                                    <td class="actions">
+                                                        <button type="submit" class="btn btn-info btn-sm">Cập Nhật</button>
+                                                        <a href="@Url.Action("XoaGioHang", "GioHang", new { @MaSP = item.MaSP, @SizeSP = item.Size })">
+                                                            <span type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></span>
+                                                        </a>
+                                                    </td>
+                                                }
+                                                </tr>
+                                            }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Cart Total view -->
+                        <div class="cart-view-total">
+                            <h4>Số Tiền Cần Thanh Toán</h4>
+                            <table class="aa-totals-table">
+                                <tbody>
+                                    <tr>
+                                        <th>Tổng Sản Phẩm</th>
+                                        <td>@ViewBag.TongSoLuong</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tổng Tiền</th>
+                                        <td>@ViewBag.TongTien.ToString("#,##") VNĐ</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            @if (Session["TaiKhoan"] != null)
+                            {
+                                @*<div>
+                                        @using (Html.BeginForm("DatHang", "GioHang"))
+                                        {
+                                            <input type="submit" value="Đặt hàng" class="aa-cart-view-btn" />
+                                            @Html.ActionLink("Mua tiếp", "Index", "Home", new { @class = "btn btn-success" })
+                                        }
+
+                                    </div>*@
+                                <a href="@Url.Action("DatHang","GioHang")" class="aa-cart-view-btn">Đặt Hàng</a>
+                            }
+                            else
+                            {
+                                @*<a href="@Url.Action("Index","Home")" class="aa-cart-view-btn">Bạn Cần Đăng Nhập Để Mua Hàng</a>*@
+                                <a href="" data-toggle="modal" data-target="#login-modal" class="aa-cart-view-btn">Đăng Nhập</a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Login Modal -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4>Login or Register</h4>
+                <div class="aa-login-form">
+                    @using (Html.BeginForm("DangNhap", "Home"))
+                    {
+                        <label for="">Tên Đăng Nhập<span>*</span></label>
+                        <input type="text" name="txtTenDangNhap" placeholder="Tên Đăng Nhập">
+                        <label for="">Mật Khẩu<span>*</span></label>
+                        <input type="password" name="txtMatKhau" placeholder="Mật Khẩu">
+                        <input value="Đăng nhập" type="submit" id="btnDangNhap1" class="aa-browse-btn">
+                        <div class="aa-register-now">
+                            Bạn chưa có tài khoản ?<a href="@Url.Action("DangKy")">Register now!</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

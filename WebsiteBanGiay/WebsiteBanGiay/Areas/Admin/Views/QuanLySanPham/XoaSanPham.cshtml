@@ -1,0 +1,72 @@
+﻿@model WebsiteBanGiay.Models.SanPham
+
+@{
+    ViewBag.Title = "XoaSanPham";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn Có Muốn Xoá Sản Phẩm ?</h3>
+<div>
+    <h4>SanPham</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <table class="table">
+            <tr>
+                <th>
+                    Mã Sản Phẩm
+                </th>
+                <th>
+                    Tên Sản Phẩm
+                </th>
+                <th>
+                    Đơn Giá
+                </th>
+               
+                <th>
+                    Hình Ảnh
+                </th>
+               
+                <th>
+                    Loại Sản Phẩm
+                </th>
+              
+
+            </tr>
+
+            
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MaSP)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.TenSP)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.DonGia)
+                    </td>
+                  
+                    <td>
+                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+Model.HinhAnh)" style="width:100px;height:150px" alt="">
+                    </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.LoaiSanPham.TenLoai)
+                    </td>
+                    
+                 
+                </tr>
+           
+
+        </table>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

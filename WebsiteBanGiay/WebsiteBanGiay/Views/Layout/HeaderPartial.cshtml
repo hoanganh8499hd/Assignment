@@ -1,0 +1,133 @@
+﻿@using WebsiteBanGiay.Models
+<div class="aa-header-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-header-top-area">
+                    <!-- start header top left -->
+                    <div class="aa-header-top-left">
+                        <!-- start language -->
+                        <div class="aa-language">
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle" href="#" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <img src="~/Content/img/flag/english.jpg" alt="english flag">ENGLISH
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="#"><img src="~/Content/img/flag/french.jpg" alt="">FRENCH</a></li>
+                                    <li><a href="#"><img src="~/Content/img/flag/english.jpg" alt="">ENGLISH</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- / language -->
+                        <!-- start currency -->
+                        <div class="aa-currency">
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle" href="#" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="fa fa-usd"></i>USD
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="#"><i class="fa fa-euro"></i>EURO</a></li>
+                                    <li><a href="#"><i class="fa fa-jpy"></i>YEN</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- / currency -->
+                        <!-- start cellphone -->
+                        <div class="cellphone hidden-xs">
+                            <p><span class="fa fa-phone"></span>00-62-658-658</p>
+                        </div>
+                        <!-- / cellphone -->
+                    </div>
+                    <!-- / header top left -->
+                    <div class="aa-header-top-right">
+                        <ul class="aa-head-top-nav-right">
+
+                            @if (Session["TaiKhoan"] != null && Session["TaiKhoan"] != "")
+                            {
+                            ThanhVien tv = (ThanhVien)Session["TaiKhoan"];
+                            <li><span>@tv.HoTen</span> </li>
+                            @Html.ActionLink("Đăng xuất", "DangXuat", "Home")
+                            }
+                            else
+                            {
+                            <li><a href="@Url.Action("DangKy", "Home")">Đăng Ký</a></li>
+                            @*<li class="hidden-xs"><a href="wishlist.html">Wishlist</a></li>
+                                <li class="hidden-xs"><a href="cart.html">My Cart</a></li>
+                                <li class="hidden-xs"><a href="checkout.html">Checkout</a></li>*@
+                            <li><a href="" data-toggle="modal" data-target="#login-modal">Đăng Nhập</a></li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="aa-header-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-header-bottom-area">
+                    <!-- logo  -->
+                    <div class="aa-logo">
+                        <!-- Text based logo -->
+                        <a href="@Url.Action("Index","Home")">
+                            <span><img src="https://i.pinimg.com/originals/71/be/6b/71be6b103a8a0b018c672bb34e76d941.jpg" style="width:100px" /></span>
+                            @*<p>daily<strong>Shop</strong> <span>Your Shopping Partner</span></p>*@
+                        </a>
+                        <!-- img based logo -->
+                        <!-- <a href="index.html"><img src="img/logo.jpg" alt="logo img"></a> -->
+                    </div>
+                    <!-- / logo  -->
+                    <!-- cart box -->
+                    @Html.Action("GioHangPartial","GioHang")
+                    <!-- / cart box -->
+                    <!-- search box -->
+                <div class="aa-search-box">
+                    @using (Html.BeginForm("TimKiem", "TimKiem"))
+                    {
+
+                        <input type="text" name="sTuKhoa" placeholder="Nhập tên sản phẩm cần tìm ">
+                        @*<input type="submit" value="Tìm Kiếm">*@
+                        <button type="submit" value="Tìm Kiếm"><span class="fa fa-search"></span></button>
+
+                    }
+                    @*<form action="">
+            <input type="text" name="" id="" placeholder="Search here ex. 'man' ">
+            <button type="submit"><span class="fa fa-search"></span></button>
+        </form>*@
+                </div>
+                    <!-- / search box -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login Modal -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4>Login or Register</h4>
+                <div class="aa-login-form">
+                    @using (Html.BeginForm("DangNhap", "Home"))
+                    {
+                        <label for="">Tên Đăng Nhập<span>*</span></label>
+                        <input type="text" name="txtTenDangNhap" placeholder="Tên Đăng Nhập">
+                        <label for="">Mật Khẩu<span>*</span></label>
+                        <input type="password" name="txtMatKhau" placeholder="Mật Khẩu">
+                        <input value="Đăng nhập" type="submit" id="btnDangNhap1" class="aa-browse-btn">
+                        <div class="aa-register-now">
+                            Bạn chưa có tài khoản ?<a href="@Url.Action("DangKy")">Register now!</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+

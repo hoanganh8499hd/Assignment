@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Thống Kê";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Thống Kê</h2>
+@ViewBag.TongDoangThu
+
+<br />
+<h2>Thống Kê Bán Hàng Theo Tháng</h2>
+<form action="/Admin/ThongKe/DoanhThuTheoThang" method="post">
+    <input type="month" name="moneyByDate" />
+    <br />
+    <input type="submit" value="Thống Kê" class="btn btn-default" />
+</form>
+
+<br />
+<h2>Thống Kê Nhập Hàng</h2>
+<label>Chọn Tháng Cần Thống Kê</label>
+<form action="/Admin/ThongKe/ThongKeNhapHangTheoThang" method="post">
+    <input type="month" name="moneyByDate" />
+    <br />
+    <input type="submit" value="Thống Kê" class="btn btn-default" />
+</form>
+

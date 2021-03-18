@@ -1,0 +1,86 @@
+﻿@*@{
+        ViewBag.Title = "ThongKeNhapHang";
+        Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    }
+
+    <h2>ThongKeNhapHang</h2>*@
+@using WebsiteBanGiay.Models
+@using PagedList.Mvc;
+@model PagedList.IPagedList<PhieuNhap>
+@*@model IEnumerable<WebsiteBanGiay.Models.PhieuNhap>*@
+
+@{
+    ViewBag.Title = "ThongKeNhapHangTheoThang";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+
+<h2>Thống Kê Nhập Hàng</h2>
+<label>Chọn Tháng Cần Thống Kê</label>
+<form action="/Admin/ThongKe/ThongKeNhapHangTheoThang" method="post">
+    <input type="month" name="moneyByDate" />
+    <br />
+    <input type="submit" value="Thống Kê" class="btn btn-default" />
+</form>
+
+<br />
+<h1><span style="font-size: 35px;">Tổng Tiền Nhập Theo Tháng</span></h1>
+<h1>
+    <span class="">@ViewBag.TongTienNhap VND</span>
+</h1>
+
+@foreach (var item in Model)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="btn-large btn-danger">Mã Phiếu Nhập</th>
+                <th class="btn-large btn-danger">Ngày Nhập</th>
+                <th class="btn-large btn-danger">Nhà Cung Cấp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th class="btn-large btn-info">@item.MaPN</th>
+                <th class="btn-large btn-info">@String.Format("{0:MM/dd/yyyy}", @item.NgayNhap)</th>
+                <th class="btn-large btn-info">@item.NhaCungCap.TenNCC</th>
+            </tr>
+        </tbody>
+    </table>
+    <div class="clearfix"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Mã Sản Phẩm</th>
+                <th scope="col">Tên Sản Phẩm</th>
+                <th scope="col">Số Lượng Nhập</th>
+                <th scope="col">Size Giày</th>
+                <th scope="col">Đơn Giá Nhập</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in @item.ChiTietPhieuNhaps)
+            {
+                <tr>
+                    <th>@i.MaSP</th>
+                    <th>@i.SanPham.TenSP</th>
+                    <td>@i.SoLuongNhap</td>
+                    <td>@i.Size.Number</td>
+                    <td>@i.DonGiaNhap</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<div class="navigation col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+    <ul class="pagination">
+        <content>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</content>
+        <content class="">
+            @Html.PagedListPager(Model, page => Url.Action("ThongKeNhapHangTheoThang", new { page = page }))
+        </content>
+    </ul>
+</div>
+

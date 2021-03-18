@@ -1,0 +1,87 @@
+﻿
+@model IEnumerable<WebsiteBanGiay.Models.DonDatHang>
+
+@{
+    ViewBag.Title = "DoanhThuTheoThang";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    //Khởi tạo control WebGrid
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 20);
+}
+
+
+<h2>Thống Kê Theo Tháng</h2>
+<label>Chọn Tháng Cần Thống Kê</label>
+<form action="/Admin/ThongKe/DoanhThuTheoThang" method="post">
+    <input type="month" name="moneyByDate" />
+    <br />
+    <input type="submit" value="Thống Kê" class="btn btn-default" />
+</form>
+
+<br />
+<h1><span style="font-size: 35px;">Tổng Doanh Thu Theo Tháng</span></h1>
+<h1>
+    <span class="">@ViewBag.TongDoangThuTheoThang VND</span>
+</h1>
+@*Dùng control Webgrid thể hiện dữ liệu model là danh sách các đơn đặt hàng được
+    truy vấn theo điều kiện từ controller*@
+@grid.GetHtml(
+    tableStyle: "divTable",
+    headerStyle: "gridHead",
+    footerStyle: "gridFooter",
+    rowStyle: "gridRow",
+    alternatingRowStyle: "gridAltRow",
+    columns: grid.Columns(
+    grid.Column("MaDDH", header: "Mã đơn hàng"),
+            grid.Column("MaThanhVien", header: "Họ tên KH", format: p => p.MaThanhVien != null ? p.ThanhVien.HoTen : ""), //Dùng toán tử 3 ngôi thay cho điều kiện if
+        grid.Column("NgayDat", header: "Thời Gian Đặt"),
+        grid.Column("TinhTrangGiaoHang", header: "Tình trạng giao hàng"),
+        grid.Column("NgayGiao", header: "Ngày giao"),
+        grid.Column("DaThanhToan", header: "Đã thanh toán"),
+        grid.Column("UuDai", header: "Ưu đãi"),
+        grid.Column("DaHuy", header: "Đã hủy")
+        ))
+
+<style>
+    /*.nav > li {
+            background: rgba(0,0,0,.5);
+        }*/
+
+    .divTable {
+        width: 100%;
+        border: 1px solid #999999;
+    }
+
+        .divTable td {
+            border: 1px solid #999999;
+        }
+
+    .gridHead {
+        background-color: #53a7df;
+        border: 1px solid #999999;
+    }
+
+        .gridHead > th > a {
+            color: #fff;
+        }
+
+    .gridFooter {
+        font-weight: bold;
+    }
+
+    .divTable a {
+        color: blue;
+    }
+    /*.gridRow {
+            color:#fff;
+            background-color:blueviolet;
+        }
+        .gridAltRow {
+            color:#fff;
+            background-color:darkorange;
+        }*/
+</style>
+
+
+
+
+

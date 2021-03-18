@@ -1,0 +1,14 @@
+﻿@using WebsiteBanGiay.Models;
+@model IEnumerable<SanPham>
+@{
+    ViewBag.Title = "90's Sneaker";
+    Layout = "~/Views/Layout/HomeLayout.cshtml";
+}
+@{
+    IEnumerable<SanPham> sanPhamMoi = ViewBag.SanPhamMoi as IEnumerable<SanPham>;
+}
+@if (sanPhamMoi.Count() > 0)
+{
+    @Html.Partial("~/Views/SanPham/SanPhamMoiPartial.cshtml", sanPhamMoi)
+}
+@Html.Action("PhanLoaiSanPham", "SanPham")

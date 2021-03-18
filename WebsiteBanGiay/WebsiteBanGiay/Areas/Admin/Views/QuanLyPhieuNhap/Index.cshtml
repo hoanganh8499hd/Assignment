@@ -1,0 +1,64 @@
+﻿@*@model IEnumerable<WebsiteBanGiay.Models.PhieuNhap>*@
+@using WebsiteBanGiay.Models
+@using PagedList.Mvc;
+@model PagedList.IPagedList<PhieuNhap>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh Sách Phiếu Nhập</h2>
+
+
+<p>
+    <a href="@Url.Action("NhapHang")"><input class="btn btn-default" type="button" value="Nhập Hàng" /></a>
+    @*@Html.ActionLink("Thêm Phiếu Nhập", "NhapHang")*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Mã Phiếu Nhập
+        </th>
+        <th>
+           Tên Nhà Cung Cấp
+        </th>
+        <th>
+            Ngày Nhập
+        </th>
+        <th>
+            Tình Trạng Phiếu (Đã Xoá)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaPN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NhaCungCap.TenNCC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DaXoa)
+            </td>
+            <td>
+                @*@Html.ActionLink("Sửa Thông Tin", "ChinhSuaPhieuNhap", new { id=item.MaPN }) |*@
+                @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+    }
+</table>
+<div class="pagination">
+    <!-- Thêm mã phân trang -->
+    <br />
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page }))
+</div>
