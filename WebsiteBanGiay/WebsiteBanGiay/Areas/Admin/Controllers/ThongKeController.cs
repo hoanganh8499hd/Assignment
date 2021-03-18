@@ -14,10 +14,10 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         // GET: Admin/ThongKe
         public ActionResult Index()
         {
-            //if (Session["Admin"] == null)
-            //{
-            //    return RedirectToAction("LoginAdmin", "LoginAdmin");
-            //}
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("LoginAdmin", "LoginAdmin");
+            }
             //ViewBag.TongDoangThu = ThongKeTongDoanhThu();
             return View();
         }
@@ -28,10 +28,10 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         }
         public ActionResult DoanhThuTheoThang(DateTime? moneyByDate)
         {
-            //if (Session["Admin"] == null)
-            //{
-            //    return RedirectToAction("LoginAdmin", "LoginAdmin");
-            //}
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("LoginAdmin", "LoginAdmin");
+            }
             int thang, nam;
             if (moneyByDate.HasValue)
             {
@@ -55,10 +55,10 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         }
         public ActionResult ThongKeNhapHangTheoThang(DateTime? moneyByDate, int? page)
         {
-            //if (Session["Admin"] == null)
-            //{
-            //    return RedirectToAction("LoginAdmin", "LoginAdmin");
-            //}
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("LoginAdmin", "LoginAdmin");
+            }
             int thang, nam;
             if (moneyByDate.HasValue)
             {
