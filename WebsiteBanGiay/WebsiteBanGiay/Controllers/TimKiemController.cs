@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PagedList;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebsiteBanGiay.Models;
-using PagedList;
 
 namespace WebsiteBanGiay.Controllers
 {

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CaptchaMvc.HtmlHelpers;
+using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebsiteBanGiay.Models;
-using CaptchaMvc.HtmlHelpers;
-using CaptchaMvc;
 
 namespace WebsiteBanGiay.Controllers
 {
@@ -73,7 +70,7 @@ namespace WebsiteBanGiay.Controllers
                 ViewBag.ErrorMessage = "Some exception occured" + e;
                 return View();
             }
-            
+
         }
         //Xây dựng action đăng nhập
         [HttpPost]
@@ -94,7 +91,7 @@ namespace WebsiteBanGiay.Controllers
                     Session["TaiKhoan"] = thanhVien;
                     return RedirectToAction("Index");
                 }
-                ViewBag.ThongBao= "Sai tên đăng Nhập Hoặc Mật Khẩu";
+                ViewBag.ThongBao = "Sai tên đăng Nhập Hoặc Mật Khẩu";
                 return RedirectToAction("Index");
             }
             ViewBag.ThongBao = "Sai tên đăng Nhập Hoặc Mật Khẩu";

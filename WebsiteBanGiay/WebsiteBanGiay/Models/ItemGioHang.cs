@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 
 namespace WebsiteBanGiay.Models
 {
@@ -30,7 +27,7 @@ namespace WebsiteBanGiay.Models
                 this.Size = size;
             }
         }
-        public ItemGioHang(int iMaSP, int sl,string size)
+        public ItemGioHang(int iMaSP, int sl, string size)
         {
             using (QuanLyBanHangEntities db = new QuanLyBanHangEntities()) // để đỡ tốn vùng nhớ
             {

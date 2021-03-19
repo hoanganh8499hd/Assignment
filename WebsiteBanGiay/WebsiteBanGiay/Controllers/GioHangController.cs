@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebsiteBanGiay.Models;
 
@@ -32,7 +31,7 @@ namespace WebsiteBanGiay.Controllers
             SanPham sp = db.SanPhams.SingleOrDefault(n => n.MaSP == MaSP);
 
             Size size = db.Sizes.FirstOrDefault(s => s.SizeID.ToString() == m_Size);
-            Size_SanPham size_SanPham = db.Size_SanPham.FirstOrDefault(s => s.SizeID.ToString() == m_Size);
+            Size_SanPham size_SanPham = db.Size_SanPham.FirstOrDefault(s => s.SizeID.ToString() == m_Size && s.MaSP == sp.MaSP);
             if (sp == null)
             {
                 //TRang đường dẫn không hợp lệ
@@ -42,7 +41,7 @@ namespace WebsiteBanGiay.Controllers
             //Lấy giỏ hàng
             List<ItemGioHang> lstGioHang = LayGioHang();
             //Trường hợp 1 nếu sản phẩm đã tồn tại trong giỏ hàng 
-            ItemGioHang spCheck = lstGioHang.SingleOrDefault(n => n.MaSP == MaSP && n.Size == size.Number.ToString());
+            ItemGioHang spCheck = lstGioHang.SingleOrDefault(n => n.MaSP == MaSP && n.Size.ToString() == size.Number.ToString());
             if (spCheck != null)
             {
                 //Kiểm tra số lượng tồn trước khi cho khách hàng mua hàng

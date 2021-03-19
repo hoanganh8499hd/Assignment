@@ -1,6 +1,8 @@
 ﻿@using WebsiteBanGiay.Models;
-@model IEnumerable<SanPham>
-
+@*@model IEnumerable<SanPham>*@
+@{ 
+    IEnumerable<SanPham> lstSanPham =  ViewBag.SanPhamMoi as IEnumerable<SanPham>;
+}
 <section id="aa-product">
     <div class="container">
         <div class="row">
@@ -34,10 +36,10 @@
                         <div class="col-md-5 no-padding">
                             <div class="aa-promo-left">
                                 <div class="aa-promo-banner">
-                                    <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+Model.ElementAt(0).HinhAnh)" alt="img">
+                                    <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+lstSanPham.ElementAt(0).HinhAnh)" alt="img">
                                     <div class="aa-prom-content">
                                         @*<span>75% Off</span>*@
-                                        <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = Model.ElementAt(0).MaSP})">Chi Tiết</a></h4>
+                                        <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = lstSanPham.ElementAt(0).MaSP})">Chi Tiết</a></h4>
                                     </div>
                                 </div>
                             </div>
@@ -47,37 +49,37 @@
                             <div class="aa-promo-right">
                                 <div class="aa-single-promo-right">
                                     <div class="aa-promo-banner">
-                                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+Model.ElementAt(1).HinhAnh)" alt="img">
+                                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+lstSanPham.ElementAt(1).HinhAnh)" alt="img">
                                         <div class="aa-prom-content">
                                             @*<span>Exclusive Item</span>*@
-                                            <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = Model.ElementAt(1).MaSP})">Chi Tiết</a></h4>
+                                            <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = lstSanPham.ElementAt(1).MaSP})">Chi Tiết</a></h4>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="aa-single-promo-right">
                                     <div class="aa-promo-banner">
-                                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+Model.ElementAt(2).HinhAnh)" alt="img">
+                                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+lstSanPham.ElementAt(2).HinhAnh)" alt="img">
                                         <div class="aa-prom-content">
                                             @*<span>Sale Off</span>*@
-                                            <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = Model.ElementAt(2).MaSP})">Chi Tiết</a></h4>
+                                            <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = lstSanPham.ElementAt(2).MaSP})">Chi Tiết</a></h4>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="aa-single-promo-right">
                                     <div class="aa-promo-banner">
-                                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+Model.ElementAt(3).HinhAnh)" alt="img">
+                                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+lstSanPham.ElementAt(3).HinhAnh)" alt="img">
                                         <div class="aa-prom-content">
                                             @*<span>Sale Off</span>*@
-                                            <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = Model.ElementAt(3).MaSP})">Chi Tiết</a></h4>
+                                            <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = lstSanPham.ElementAt(3).MaSP})">Chi Tiết</a></h4>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="aa-single-promo-right">
                                     <div class="aa-promo-banner">
-                                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+Model.ElementAt(4).HinhAnh)" alt="img">
+                                        <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+lstSanPham.ElementAt(4).HinhAnh)" alt="img">
                                         <div class="aa-prom-content">
                                             @*<span>Sale Off</span>*@
-                                            <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = Model.ElementAt(4).MaSP})">Chi Tiết</a></h4>
+                                            <h4><a href="@Url.Action("ChiTietSanPham","SanPham",new { @id = lstSanPham.ElementAt(4).MaSP})">Chi Tiết</a></h4>
                                         </div>
                                     </div>
                                 </div>

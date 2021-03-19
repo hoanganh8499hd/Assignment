@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace WebsiteBanGiay.Areas.Admin.Controllers
 {
@@ -13,7 +9,7 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         {
             if (Session["Admin"] == null)
             {
-               return RedirectToAction("LoginAdmin", "LoginAdmin");
+                return RedirectToAction("LoginAdmin", "LoginAdmin");
             }
             return View();
         }

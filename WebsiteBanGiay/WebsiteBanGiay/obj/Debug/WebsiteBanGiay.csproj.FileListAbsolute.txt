@@ -223,7 +223,6 @@ E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\bin\Microsoft.Owin.Security.Twi
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\bin\Microsoft.Owin.Security.OAuth.xml
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.csprojAssemblyReference.cache
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.csproj.CoreCompileInputs.cache
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.csproj.CopyComplete
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.dll

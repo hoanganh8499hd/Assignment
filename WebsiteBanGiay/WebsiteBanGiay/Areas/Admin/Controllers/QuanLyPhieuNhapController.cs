@@ -1,8 +1,6 @@
 ﻿using PagedList;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebsiteBanGiay.Models;
 
@@ -57,7 +55,7 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
             {
                 // Gán mã phiếu nhập cho tất cả các chi tiết phiếu nhập
                 item.MaPN = model.MaPN;
-               
+
                 //Cập nhập số lượng tồn 
                 sp = db.SanPhams.SingleOrDefault(s => s.MaSP == item.MaSP);
                 sp.SoLuongTon += item.SoLuongNhap;
@@ -71,7 +69,7 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
             return View();
         }
         //Giải phóng biến cho vùng nhớ
-       
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

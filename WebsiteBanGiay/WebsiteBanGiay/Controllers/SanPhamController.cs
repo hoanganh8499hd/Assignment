@@ -1,11 +1,9 @@
-﻿using System;
+﻿using PagedList;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebsiteBanGiay.Models;
-using PagedList;
 
 namespace WebsiteBanGiay.Controllers
 {
@@ -21,6 +19,8 @@ namespace WebsiteBanGiay.Controllers
         [ChildActionOnly]
         public ActionResult SanPhamMoiPartial()
         {
+            var sanpham = db.SanPhams.Where(x => x.Moi == 1).ToList();
+            ViewBag.SanPhamMoi = sanpham;
             return PartialView();
         }
         public ActionResult PhanLoaiSanPham()
@@ -31,13 +31,13 @@ namespace WebsiteBanGiay.Controllers
         public ActionResult ChiTietSanPham(int? id)
         {
             //Kiểm tra tham số
-            if (id==null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //Lấy dữ liệu tương ứng
             var sanpham = db.SanPhams.SingleOrDefault(s => s.MaSP == id && s.DaXoa == false);
-            if (sanpham==null)
+            if (sanpham == null)
             {
                 return HttpNotFound();
             }
@@ -78,7 +78,7 @@ namespace WebsiteBanGiay.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var lstSP = db.SanPhams.Where(n=> n.MaNSX == MaNSX);
+            var lstSP = db.SanPhams.Where(n => n.MaNSX == MaNSX);
             if (lstSP.Count() == 0)
             {
                 //Thông báo nếu như không có sản phẩm đó
