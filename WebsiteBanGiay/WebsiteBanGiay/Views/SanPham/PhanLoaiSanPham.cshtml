@@ -27,7 +27,7 @@
                                                 <li>
                                                     <figure>
                                                         <a class="aa-product-img" href="@Url.Action("ChiTietSanPham", "SanPham", new { id=item.MaSP})"><img src="@Url.Content("~/Content/HinhAnh/SanPham/"+item.HinhAnh)" alt="" style="width:250px;height:300px"></a>
-                                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                                        <a class="aa-add-card-btn" href="@Url.Action("ChiTietSanPham","SanPham",new { @id = item.MaSP })"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                                         <figcaption>
                                                             <h4 class="aa-product-title"><a href="@Url.Action("ChiTietSanPham", "SanPham", new { id=item.MaSP})">@item.TenSP</a></h4>
                                                             <span class="aa-product-price"> @Convert.ToDecimal(item.DonGia).ToString("#,##") VND</span>
@@ -52,7 +52,7 @@
                                                 <li>
                                                     <figure>
                                                         <a class="aa-product-img" href="@Url.Action("ChiTietSanPham", "SanPham", new { id=item.MaSP})"><img src="@Url.Content("~/Content/HinhAnh/SanPham/"+item.HinhAnh)" alt="" style="width:250px;height:300px"></a>
-                                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                                        <a class="aa-add-card-btn" href="@Url.Action("ChiTietSanPham","SanPham",new { @id = item.MaSP })"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                                         <figcaption>
                                                             <h4 class="aa-product-title"><a href="@Url.Action("ChiTietSanPham", "SanPham", new { id=item.MaSP})">@item.TenSP</a></h4>
                                                             <span class="aa-product-price"> @Convert.ToDecimal(item.DonGia).ToString("#,##") VND</span>
@@ -77,7 +77,7 @@
                                                 <li>
                                                     <figure>
                                                         <a class="aa-product-img" href="@Url.Action("ChiTietSanPham", "SanPham", new { id=item.MaSP})"><img src="@Url.Content("~/Content/HinhAnh/SanPham/"+item.HinhAnh)" alt="" style="width:250px;height:300px"></a>
-                                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                                        <a class="aa-add-card-btn" href="@Url.Action("ChiTietSanPham","SanPham",new { @id = item.MaSP })"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                                         <figcaption>
                                                             <h4 class="aa-product-title"><a href="@Url.Action("ChiTietSanPham", "SanPham", new { id=item.MaSP})">@item.TenSP</a></h4>
                                                             <span class="aa-product-price"> @Convert.ToDecimal(item.DonGia).ToString("#,##") VND</span>

@@ -588,3 +588,9 @@ SET IDENTITY_INSERT [dbo].[Size] OFF
 GO 
 
 UPDATE dbo.SanPham SET Moi=1 WHERE MaSP IN (SELECT TOP(10) MaSP FROM dbo.SanPham)
+select * from sanpham
+select * from PhieuNhap
+select * from ThanhVien
+select * from Size_SanPham
+select * from DonDatHang
+select * from ChiTietDonDatHang

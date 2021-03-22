@@ -227,3 +227,4 @@ E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.csproj
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.csproj.CopyComplete
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.dll
 E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.pdb
+E:\Test\Assignment\WebsiteBanGiay\WebsiteBanGiay\obj\Debug\WebsiteBanGiay.csprojAssemblyReference.cache
