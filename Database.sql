@@ -588,9 +588,133 @@ SET IDENTITY_INSERT [dbo].[Size] OFF
 GO 
 
 UPDATE dbo.SanPham SET Moi=1 WHERE MaSP IN (SELECT TOP(10) MaSP FROM dbo.SanPham)
+USE QuanLyBanHang
 select * from sanpham
 select * from PhieuNhap
 select * from ThanhVien
 select * from Size_SanPham
 select * from DonDatHang
 select * from ChiTietDonDatHang
+SELECT * FROM dbo.ThanhVien
+SELECT * FROM dbo.NhaSanXuat
+
+--Query
+
+
+--Thống kê doanh thu đơn đặt hàng theo tháng
+
+SELECT* FROM dbo.ChiTietDonDatHang
+
+SELECT* FROM dbo.DonDatHang
+GO
+
+SELECT SUM(DonGia*SoLuong) AS [Doanh Thu]  FROM dbo.ChiTietDonDatHang 
+INNER JOIN dbo.DonDatHang ON DonDatHang.MaDDH = ChiTietDonDatHang.MaDDH
+WHERE MONTH(NgayDat)=2 AND YEAR(NgayDat)=2021 AND
+DaHuy=0 AND DaXoa=0
+GO
+
+CREATE PROC ThongKeDoanhThuDatHangTheoThang @Thang INT, @Nam INT
+AS
+SELECT SUM(DonGia*SoLuong) FROM dbo.ChiTietDonDatHang 
+INNER JOIN dbo.DonDatHang ON DonDatHang.MaDDH = ChiTietDonDatHang.MaDDH
+WHERE MONTH(NgayDat)=@Thang AND YEAR(NgayDat)=@Nam AND
+DaHuy=0 AND DaXoa=0
+GO
+EXEC dbo.ThongKeDoanhThuDatHangTheoThang @Thang = 3, -- int
+                                         @Nam = 2021    -- int
+
+
+
+--Thống kê nhập hàng theo tháng
+SELECT * FROM dbo.PhieuNhap
+SELECT * FROM dbo.ChiTietPhieuNhap
+GO
+
+SELECT SUM(SoLuongNhap*DonGiaNhap) FROM dbo.ChiTietPhieuNhap
+INNER JOIN dbo.PhieuNhap ON PhieuNhap.MaPN = ChiTietPhieuNhap.MaPN
+WHERE MONTH(NgayNhap)=3 AND YEAR(NgayNhap)=2021
+AND DaXoa=0
+GO
+
+CREATE PROC ThongKeNhapHangTheoThang @Thang INT, @Nam INT
+AS
+SELECT SUM(SoLuongNhap*DonGiaNhap) FROM dbo.ChiTietPhieuNhap
+INNER JOIN dbo.PhieuNhap ON PhieuNhap.MaPN = ChiTietPhieuNhap.MaPN
+WHERE MONTH(NgayNhap)=@Thang AND YEAR(NgayNhap)=@Nam
+AND DaXoa=0
+GO
+EXEC dbo.ThongKeNhapHangTheoThang @Thang = 3, -- int
+                                  @Nam = 2021    -- int
+
+GO
+
+--Thống kê đặt hàng
+
+SELECT * FROM dbo.DonDatHang 
+INNER JOIN dbo.ChiTietDonDatHang ON ChiTietDonDatHang.MaDDH = DonDatHang.MaDDH
+WHERE DaThanhToan=1 AND TinhTrangGiaoHang=1 AND
+MONTH(NgayDat)=2 AND YEAR(NgayDat)=2021 AND DaHuy=0
+
+GO
+CREATE PROC ThongKeDatHang @Thang INT, @Nam INT, @DaThanhToan INT,@TinhTrangGiaoHang int
+AS
+SELECT * FROM dbo.DonDatHang 
+INNER JOIN dbo.ChiTietDonDatHang ON ChiTietDonDatHang.MaDDH = DonDatHang.MaDDH
+WHERE DaThanhToan=@DaThanhToan AND TinhTrangGiaoHang=@TinhTrangGiaoHang AND
+MONTH(NgayDat)=@Thang AND YEAR(NgayDat)=@Nam AND DaHuy=0
+GO
+
+EXEC dbo.ThongKeDatHang @Thang = 2,            -- int
+                        @Nam = 2021,              -- int
+                        @DaThanhToan = 1,      -- int
+                        @TinhTrangGiaoHang = 1 -- int
+
+
+
+
+
+
+
+
+--Danh sách sản phẩm theo nhà sản xuất
+
+SELECT * FROM dbo.SanPham WHERE MaNSX=2 
+
+GO
+CREATE PROC ListProductsByIdProducer @IdNSX int
+AS
+SELECT * FROM dbo.SanPham WHERE MaNSX=@IdNSX
+GO
+
+EXEC dbo.ListProductsByIdProducer @IdNSX = 1 -- int
+GO
+
+--Danh sách sản phẩm theo loại sản phẩm
+
+SELECT * FROM dbo.SanPham WHERE MaLoaiSP=1
+
+GO
+CREATE PROC ListProductsByIdCategory @IdMaLoaiSP INT
+AS
+SELECT * FROM dbo.SanPham WHERE MaLoaiSP=@IdMaLoaiSP
+GO
+ 
+EXEC dbo.ListProductsByIdCategory @IdMaLoaiSP = 1 -- int
+GO
+
+
+--Danh sách sản phẩm theo loại sản phẩm và nhà sản xuất
+
+SELECT * FROM dbo.SanPham WHERE MaLoaiSP=1 AND MaNSX=2
+
+GO
+CREATE PROC ListProductsByIdCategoryAndIdProducer @IdMaLoaiSP INT, @IdNSX int
+AS
+SELECT * FROM dbo.SanPham WHERE MaLoaiSP=@IdMaLoaiSP AND MaNSX=@IdNSX
+GO
+ 
+EXEC dbo.ListProductsByIdCategoryAndIdProducer @IdMaLoaiSP = 1, -- int
+                                               @IdNSX = 1       -- int
+
+GO

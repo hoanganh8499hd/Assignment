@@ -22,7 +22,7 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
                 return RedirectToAction("LoginAdmin", "LoginAdmin");
             }
             //Lấy danh Sách các đơn hàng chưa duyệt
-            var ds = db.DonDatHangs.Where(s => s.DaThanhToan == false && s.DaThanhToan == false).OrderBy(s => s.NgayDat);
+            var ds = db.DonDatHangs.Where(s => s.DaThanhToan == false && s.TinhTrangGiaoHang == false).OrderBy(s => s.NgayDat);
             return View(ds);
         }
         public ActionResult ChuaGiao()
