@@ -1,4 +1,5 @@
 ﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -177,6 +178,45 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
             db.SanPhams.Remove(sp);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        /*GetSearchingData 06/05/2021*/
+        public JsonResult GetSearchingData(string SearchBy, string SearchValue)
+        {
+            //db.Configuration.ProxyCreationEnabled = false;
+            List<SanPham> sanPhams = db.SanPhams.ToList();
+            if (SearchBy == "ID")
+            {
+                try
+                {
+                    int Id = Convert.ToInt32(SearchValue);
+                    sanPhams = db.SanPhams.Where(x => x.MaSP == Id || SearchValue == null).ToList();
+
+                }
+                catch (System.Exception)
+                {
+                    Console.WriteLine("{0} is not a ID", SearchValue);
+                    throw;
+                }
+                return Json(sanPhams, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                sanPhams = db.SanPhams.Where(x => x.TenSP.StartsWith(SearchValue) || SearchValue == null)
+                .ToList();
+                foreach (var item in sanPhams)
+                {
+                    item.NhaSanXuat.SanPhams.Clear();
+                    item.LoaiSanPham.SanPhams.Clear();
+                    item.Size_SanPham.Clear();
+                    if (item.NhaCungCap != null)
+                    {
+                        item.NhaCungCap.SanPhams.Clear();
+
+                    }
+                }
+                return Json(sanPhams, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

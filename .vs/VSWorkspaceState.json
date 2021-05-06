@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
+    "",
     "\\WebsiteBanGiay",
     "\\WebsiteBanGiay\\WebsiteBanGiay",
-    "\\WebsiteBanGiay\\WebsiteBanGiay\\Areas",
-    "\\WebsiteBanGiay\\WebsiteBanGiay\\Areas\\Admin",
-    "\\WebsiteBanGiay\\WebsiteBanGiay\\Areas\\Admin\\Controllers"
+    "\\WebsiteBanGiay\\WebsiteBanGiay\\Models"
   ],
+  "SelectedNode": "\\WebsiteBanGiay\\WebsiteBanGiay.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -597,7 +597,11 @@ select * from DonDatHang
 select * from ChiTietDonDatHang
 SELECT * FROM dbo.ThanhVien
 SELECT * FROM dbo.NhaSanXuat
+SELECT * FROM dbo.ThanhVien
+GO
 
+UPDATE dbo.SanPham SET DaXoa=0
+UPDATE dbo.SanPham SET SoLanMua=0, MaNCC=1 WHERE MaSP=1
 --Query
 
 
@@ -718,3 +722,30 @@ EXEC dbo.ListProductsByIdCategoryAndIdProducer @IdMaLoaiSP = 1, -- int
                                                @IdNSX = 1       -- int
 
 GO
+
+
+SELECT TOP(10) SoLuongTon,MaSP,TenSP FROM dbo.SanPham ORDER BY SoLuongTon DESC
+
+GO
+
+--function
+CREATE FUNCTION ThongKeNhapHangTheoThang(
+     @Thang INT, @Nam INT
+)
+RETURNS DEC(10,2)
+AS 
+BEGIN
+DECLARE @total DEC(10,2);
+
+    SELECT @total=SUM(SoLuongNhap*DonGiaNhap) FROM dbo.ChiTietPhieuNhap
+INNER JOIN dbo.PhieuNhap ON PhieuNhap.MaPN = ChiTietPhieuNhap.MaPN
+WHERE MONTH(NgayNhap)=@Thang AND YEAR(NgayNhap)=@Nam
+AND DaXoa=0
+RETURN @total;
+END;
+GO
+
+CREATE TRIGGER UpdateSoLuongDatHang
+ON dbo.SanPham
+FOR UPDATE
+AS 
