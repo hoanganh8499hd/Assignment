@@ -12,10 +12,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         // GET: Admin/QuanLyPhieuNhap
         public ActionResult Index(int? page)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             //Thực hiện chức năng phân trang
             //Tạo biến số sản phẩm trên trang
             int PageSize = 6;
@@ -26,10 +22,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult NhapHang()
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             ViewBag.ListNhaCungCap = db.NhaCungCaps;
             ViewBag.ListSanPham = db.SanPhams;
             ViewBag.ListSize = db.Sizes;
@@ -39,10 +31,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult NhapHang(PhieuNhap model, IEnumerable<ChiTietPhieuNhap> lstCTPhieuNhap)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             ViewBag.ListNhaCungCap = db.NhaCungCaps;
             ViewBag.ListSanPham = db.SanPhams;
             ViewBag.ListSize = db.Sizes;

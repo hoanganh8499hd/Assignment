@@ -5,7 +5,7 @@ using WebsiteBanGiay.Models;
 
 namespace WebsiteBanGiay.Areas.Admin.Controllers
 {
-    public class QuanLyDonHangController : Controller
+    public class QuanLyDonHangController : BaseController
     {
         QuanLyBanHangEntities db = new QuanLyBanHangEntities();
         // GET: Admin/QuanLyDonHang
@@ -17,30 +17,18 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         // GET: /QuanLyDonHang/     
         public ActionResult ChuaThanhToan()
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             //Lấy danh Sách các đơn hàng chưa duyệt
             var ds = db.DonDatHangs.Where(s => s.DaThanhToan == false && s.TinhTrangGiaoHang == false).OrderBy(s => s.NgayDat);
             return View(ds);
         }
         public ActionResult ChuaGiao()
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             //Lấy danh sách đơn hàng chưa giao 
             var lstDSDHCG = db.DonDatHangs.Where(n => n.TinhTrangGiaoHang == false && n.DaThanhToan == true).OrderBy(n => n.NgayGiao);
             return View(lstDSDHCG);
         }
         public ActionResult DaGiaoDaThanhToan()
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             //Lấy danh sách đơn hàng chưa giao 
             var lstDSDHCG = db.DonDatHangs.Where(n => n.TinhTrangGiaoHang == true && n.DaThanhToan == true);
             return View(lstDSDHCG);
@@ -48,10 +36,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult DuyetDonHang(int? id)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             //Kiểm tra xem id hợp lệ không
             if (id == null)
             {
@@ -71,10 +55,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult DuyetDonHang(DonDatHang ddh)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             //Truy vấn lấy ra dữ liệu của đơn hàn đó 
             DonDatHang ddhUpdate = db.DonDatHangs.Single(n => n.MaDDH == ddh.MaDDH);
             ddhUpdate.DaThanhToan = ddh.DaThanhToan;

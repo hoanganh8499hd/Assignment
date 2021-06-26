@@ -10,28 +10,23 @@ using WebsiteBanGiay.Models;
 
 namespace WebsiteBanGiay.Areas.Admin.Controllers
 {
-    public class QuanLySanPhamController : Controller
+    public class QuanLySanPhamController : BaseController
     {
         QuanLyBanHangEntities db = new QuanLyBanHangEntities();
+
+
         // GET: Admin/QuanLySanPham
         public ActionResult Index(int? page)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             int pageSize = 6;
             int pageNumber = page ?? 1;
+            ViewBag.LoaiSanPham = db.LoaiSanPhams.ToList();
             List<SanPham> lstSanPham = db.SanPhams.ToList();
-            return View(db.SanPhams.OrderBy(x => x.MaSP).ToPagedList(pageNumber, pageSize));
+            return View("~/Areas/Admin/Views/QuanLySanPham/Index.cshtml", db.SanPhams.OrderBy(x => x.MaSP).ToPagedList(pageNumber, pageSize));
         }
         [HttpGet]
         public ActionResult ThemSanPham()
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             ViewBag.NhaCungCap = new SelectList(db.NhaCungCaps.OrderBy(s => s.MaNCC), "MaNCC", "TenNCC");
             ViewBag.LoaiSanPham = new SelectList(db.LoaiSanPhams.OrderBy(s => s.MaLoaiSP), "MaLoaiSP", "TenLoai");
             ViewBag.NhaSanXuat = new SelectList(db.NhaSanXuats.OrderBy(s => s.MaNSX), "MaNSX", "TenNSX");
@@ -41,10 +36,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ThemSanPham(SanPham sp, HttpPostedFileBase HinhAnh)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             //Load dropdownlist nhà cung cấp và dropdownlist loại sp, mã nhà sản xuất
             ViewBag.NhaCungCap = new SelectList(db.NhaCungCaps.OrderBy(n => n.MaNCC), "MaNCC", "TenNCC");
             ViewBag.LoaiSanPham = new SelectList(db.LoaiSanPhams.OrderBy(n => n.MaLoaiSP), "MaLoaiSP", "TenLoai");
@@ -87,10 +78,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ChinhSuaSanPham(int? id)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             //Lấy sản phẩm  cần chỉnh sửa dựa vào id
             if (id == null)
             {
@@ -111,10 +98,7 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ChinhSuaSanPham(SanPham sp, HttpPostedFileBase HinhAnh)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
+
             ViewBag.NhaCungCap = new SelectList(db.NhaCungCaps.OrderBy(n => n.TenNCC), "MaNCC", "TenNCC", sp.MaNCC);
             ViewBag.LoaiSanPham = new SelectList(db.LoaiSanPhams.OrderBy(n => n.MaLoaiSP), "MaLoaiSP", "TenLoai", sp.MaLoaiSP);
             ViewBag.NhaSanXuat = new SelectList(db.NhaSanXuats.OrderBy(n => n.MaNSX), "MaNSX", "TenNSX", sp.MaNSX);
@@ -150,10 +134,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult XoaSanPham(int? id)
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -172,7 +152,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
             SanPham sp = db.SanPhams.SingleOrDefault(s => s.MaSP == id);
             if (sp == null)
             {
-
                 return HttpNotFound();
             }
             db.SanPhams.Remove(sp);
@@ -191,14 +170,26 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
                 {
                     int Id = Convert.ToInt32(SearchValue);
                     sanPhams = db.SanPhams.Where(x => x.MaSP == Id || SearchValue == null).ToList();
+                    foreach (var item in sanPhams)
+                    {
+                        item.NhaSanXuat.SanPhams.Clear();
+                        item.LoaiSanPham.SanPhams.Clear();
+                        item.Size_SanPham.Clear();
+                        item.ChiTietDonDatHangs.Clear();
+                        item.ChiTietPhieuNhaps.Clear();
+                        if (item.NhaCungCap != null)
+                        {
+                            item.NhaCungCap.SanPhams.Clear();
 
+                        }
+                    }
+                    return Json(sanPhams, JsonRequestBehavior.AllowGet);
                 }
                 catch (System.Exception)
                 {
                     Console.WriteLine("{0} is not a ID", SearchValue);
                     throw;
                 }
-                return Json(sanPhams, JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -209,6 +200,8 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
                     item.NhaSanXuat.SanPhams.Clear();
                     item.LoaiSanPham.SanPhams.Clear();
                     item.Size_SanPham.Clear();
+                    item.ChiTietDonDatHangs.Clear();
+                    item.ChiTietPhieuNhaps.Clear();
                     if (item.NhaCungCap != null)
                     {
                         item.NhaCungCap.SanPhams.Clear();
@@ -217,6 +210,176 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
                 }
                 return Json(sanPhams, JsonRequestBehavior.AllowGet);
             }
+        }
+        public ActionResult SearchingData(string SearchBy, string SearchValue, Decimal? PriceFrom, Decimal? PriceTo, int? CategorySearch)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            int pageSize = 6;
+            int pageNumber = 1;
+            ViewBag.LoaiSanPham = db.LoaiSanPhams.ToList();
+
+            //List<SanPham> sanPhams = db.SanPhams.ToList();
+            //if (SearchBy == "ID")
+            //{
+            //    try
+            //    {
+            //        int Id = Convert.ToInt32(SearchValue);
+            //        sanPhams = db.SanPhams.Where(x => x.MaSP == Id || SearchValue == null).ToList();
+            //        foreach (var item in sanPhams)
+            //        {
+            //            //item.NhaSanXuat.SanPhams.Clear();
+            //            //item.LoaiSanPham.SanPhams.Clear();
+            //            //item.Size_SanPham.Clear();
+            //            //item.ChiTietDonDatHangs.Clear();
+            //            //item.ChiTietPhieuNhaps.Clear();
+            //            if (item.NhaCungCap != null)
+            //            {
+            //                item.NhaCungCap.SanPhams.Clear();
+
+            //            }
+            //        }
+
+            //        return PartialView("~/Areas/Admin/Views/QuanLySanPham/ListSanPham.cshtml", db.SanPhams.Where(x => x.TenSP.Contains(SearchValue)).OrderBy(x => x.MaSP).ToPagedList(pageNumber, pageSize));
+            //    }
+            //    catch (System.Exception)
+            //    {
+            //        Console.WriteLine("{0} is not a ID", SearchValue);
+            //        throw;
+            //    }
+            //}
+
+            //Searching 01
+            //List<SanPham> sanPhams = new List<SanPham>();
+            //if (SearchValue == null || SearchValue == "")
+            //{
+            //    if (PriceFrom == null && PriceTo != null)
+            //    {
+            //        sanPhams = (from sp in db.SanPhams
+            //                    where sp.DonGia <= PriceTo
+            //                    select sp).ToList();
+            //    }
+            //    else if (PriceTo == null && PriceFrom != null)
+            //    {
+            //        sanPhams = (from sp in db.SanPhams
+            //                    where sp.DonGia >= PriceFrom
+            //                    select sp).ToList();
+            //    }
+            //    else
+            //    {
+            //        sanPhams = (from sp in db.SanPhams
+            //                    where sp.DonGia >= PriceFrom && sp.DonGia <= PriceTo
+            //                    select sp).ToList();
+            //    }
+            //}
+            //else if (PriceFrom == null && PriceTo != null)
+            //{
+            //    sanPhams = (from sp in db.SanPhams
+            //                where sp.DonGia <= PriceTo && sp.TenSP.StartsWith(SearchValue)
+            //                select sp).ToList();
+            //}
+            //else if (PriceTo == null && PriceFrom != null)
+            //{
+            //    sanPhams = (from sp in db.SanPhams
+            //                where sp.DonGia >= PriceFrom && sp.TenSP.StartsWith(SearchValue)
+            //                select sp).ToList();
+            //}
+            //else
+            //{
+            //    sanPhams = db.SanPhams.Where(x => x.TenSP.StartsWith(SearchValue) || SearchValue == null).ToList();
+            //}  
+
+
+            //Searching 02
+            if (CategorySearch==0)
+            {
+                CategorySearch = null;
+            }
+            List<SanPham> sanPhams = new List<SanPham>();
+            sanPhams = db.SanPhams.Where(x => x.TenSP.StartsWith(SearchValue) || SearchValue == null)
+                        .Where(x => x.DonGia <= PriceTo || PriceTo == null)
+                        .Where(x => x.DonGia >= PriceFrom || PriceFrom == null)
+                        .Where(x => x.LoaiSanPham.MaLoaiSP == CategorySearch || CategorySearch == null)
+                        .ToList();
+
+
+            //if (SearchValue == null || SearchValue == "")
+            //{
+            //    if (PriceFrom == null && PriceTo != null)
+            //    {
+            //        sanPhams = (from sp in db.SanPhams
+            //                    where sp.DonGia <= PriceTo
+            //                    select sp).ToList();
+            //    }
+            //    else if (PriceTo == null && PriceFrom != null)
+            //    {
+            //        sanPhams = (from sp in db.SanPhams
+            //                    where sp.DonGia >= PriceFrom
+            //                    select sp).ToList();
+            //    }
+            //    else
+            //    {
+            //        sanPhams = (from sp in db.SanPhams
+            //                    where sp.DonGia >= PriceFrom && sp.DonGia <= PriceTo
+            //                    select sp).ToList();
+            //    }
+            //}
+            //else if (PriceFrom == null && PriceTo != null)
+            //{
+            //    sanPhams = (from sp in db.SanPhams
+            //                where sp.DonGia <= PriceTo && sp.TenSP.StartsWith(SearchValue)
+            //                select sp).ToList();
+            //}
+            //else if (PriceTo == null && PriceFrom != null)
+            //{
+            //    sanPhams = (from sp in db.SanPhams
+            //                where sp.DonGia >= PriceFrom && sp.TenSP.StartsWith(SearchValue)
+            //                select sp).ToList();
+            //}
+            //else
+            //{
+            //    sanPhams = db.SanPhams.Where(x => x.TenSP.StartsWith(SearchValue) || SearchValue == null).ToList();
+            //}
+
+
+            //foreach (var item in sanPhams)
+            //{
+            //    //item.NhaSanXuat.SanPhams.Clear();
+            //    //item.LoaiSanPham.SanPhams.Clear();
+            //    //item.Size_SanPham.Clear();
+            //    //item.ChiTietDonDatHangs.Clear();
+            //    //item.ChiTietPhieuNhaps.Clear();
+            //    //if (item.NhaCungCap != null)
+            //    //{
+            //    //    item.NhaCungCap.SanPhams.Clear();
+
+            //    //}
+            //}
+
+            return View("~/Areas/Admin/Views/QuanLySanPham/Index.cshtml", sanPhams.OrderBy(x => x.MaSP).ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult ListSanPham(string SearchValue)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            int pageSize = 6;
+            int pageNumber = 1;
+            List<SanPham> sanPhams = db.SanPhams.ToList();
+
+            //foreach (var item in sanPhams)
+            //{
+            //    item.NhaSanXuat.SanPhams.Clear();
+            //    item.LoaiSanPham.SanPhams.Clear();
+            //    item.Size_SanPham.Clear();
+            //    item.ChiTietDonDatHangs.Clear();
+            //    item.ChiTietPhieuNhaps.Clear();
+            //    if (item.NhaCungCap != null)
+            //    {
+            //        item.NhaCungCap.SanPhams.Clear();
+            //    }
+            //}
+
+
+            return PartialView("~/Areas/Admin/Views/QuanLySanPham/ListSanPham.cshtml", db.SanPhams.Where(x => x.TenSP.Contains(SearchValue)).OrderBy(x => x.MaSP).ToPagedList(pageNumber, pageSize));
         }
     }
 }

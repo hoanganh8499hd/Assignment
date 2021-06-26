@@ -20,6 +20,7 @@ namespace WebsiteBanGiay.Models
         public QuanLyBanHangEntities()
             : base("name=QuanLyBanHangEntities")
         {
+            //base.Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

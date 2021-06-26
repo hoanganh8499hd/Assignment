@@ -179,6 +179,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuanLyDonHangController.cs" />
@@ -663,6 +664,7 @@
     <Content Include="Areas\Admin\Views\ThongKe\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ThongKe\DoanhThuTheoThang.cshtml" />
     <Content Include="Areas\Admin\Views\ThongKe\ThongKeNhapHangTheoThang.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLySanPham\ListSanPham.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -702,6 +704,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

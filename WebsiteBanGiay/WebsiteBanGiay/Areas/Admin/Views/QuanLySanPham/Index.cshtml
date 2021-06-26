@@ -5,131 +5,243 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-}
-<h2>Trang Quản Lý Sản Phẩm</h2>
+    List<LoaiSanPham> loaiSanPhams = ViewBag.LoaiSanPham;
 
-<div style="display:flex">
+}
+<style>
+    .padding-7px {
+        padding: 7px;
+    }
+</style>
+<h2>Trang Quản Lý Sản Phẩm</h2>
+<div id="quan-ly-san-pham">
+    <div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="/Admin/QuanLySanPham/ThemSanPham"><input type="button" value="Thêm Sản Phẩm" class="btn btn-default" /></a>
+                @*<a href="@Url.Action("ThemSanPham")"><input type="button" value="Thêm Sản Phẩm" class="btn btn-default" /></a>*@
+            </div>
+        </div>
+        @*@Html.ActionLink("Thêm Mới Sản Phẩm", "ThemSanPham")*@
+    </div>
+    <div>
+        <br />
+        <p><h3>Tìm kiếm</h3></p>
+        <form action="/Admin/QuanLySanPham/SearchingData" method="get">
+            <div style="display:flex">
+                <div id="name-search">
+                    <p>
+                        Tên Sản Phẩm
+                    </p>
+                    <input id="SearchValue" name="SearchValue" type="text">
+                    <br />
+                </div>
+                <div id="price-search" style=" margin-left: 5%; ">
+                    <p>
+                        Giá Sản Phẩm
+                    </p>
+                    <disv style="display:flex">
+                        <div>
+                            <div class="padding-7px">
+                                Từ
+                            </div>
+                            <div class="padding-7px">
+                                Đến
+                            </div>
+                        </div>
+                        <div>
+                            <input id="PriceFrom" name="PriceFrom" type="text">
+                            <input id="PriceTo" name="PriceTo" type="text">
+                        </div>
+                    </disv>
+                </div>
+
+                <div style=" margin-left: 5%; ">
+                    <p>
+                        Loại Sản Phẩm
+                    </p>
+                    <select id="category-search" name="CategorySearch">
+                        <option value="0" name="Chọn loại sản phẩm">Chọn loại sản phẩm</option>
+
+                        @foreach (var item in loaiSanPhams)
+                        {
+                            <option value="@item.MaLoaiSP" name="@item.TenLoai">@item.TenLoai</option>
+                        }
+                    </select>
+                </div>
+
+
+            </div>
+
+            <input type="submit" id="SearchBtn" value="Search">
+        </form>
+    </div>
+    <div id="list-products-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Mã Sản Phẩm
+                    </th>
+                    <th>
+                        Tên Sản Phẩm
+                    </th>
+                    <th>
+                        Đơn Giá
+                    </th>
+                    <th>
+                        Hình Ảnh
+                    </th>
+                    <th>
+                        Loại Sản Phẩm
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="DataSearching">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="id-product" data-id="@item.MaSP">
+                            @Html.DisplayFor(modelItem => item.MaSP)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenSP)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DonGia)
+                        </td>
+                        <td>
+                            <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+item.HinhAnh)" style="width:100px;height:150px" alt="">
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LoaiSanPham.TenLoai)
+                        </td>
+                        <td>
+                            @*<button id="edit-product"> Sua thong tin </button>*@
+                            <a href="/Admin/QuanLySanPham/ChinhSuaSanPham/?id=@item.MaSP"> Sửa Thông Tin</a>
+                            @*@Html.ActionLink("Sửa Thông Tin", "ChinhSuaSanPham","QuanLySanPham", new { area = "Admin"  }, new { @id = item.MaSP })*@ |
+                            @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                            @*@Html.ActionLink("Xoá Sản Phẩm", "XoaSanPham", new { @id = item.MaSP })*@
+                            <a href="/Admin/QuanLySanPham/XoaSanPham/?id=@item.MaSP"> Xoá Sản Phẩm</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="PageList" class="navigation col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+            <ul class="pagination">
+                <content>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</content>
+                <content id="link-next-page">
+                    <div id="list-all-san-pham">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+                    </div>
+                    <div id="list-search-san-pham" style="display:none">
+                        @Html.PagedListPager(Model, page => Url.Action("SearchingData", new { page = page }))
+                    </div>
+                </content>
+            </ul>
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <a href="@Url.Action("ThemSanPham")"><input type="button" value="Thêm Sản Phẩm" class="btn btn-default" /></a>
-        </div>
-    </div>
-    @*@Html.ActionLink("Thêm Mới Sản Phẩm", "ThemSanPham")*@
-    <div style="margin-left:500px">
-        <div>
-            <select id="SearchBy">
-                <option value="Name">Name</option>
-                <option value="ID">ID</option>
-            </select><br />
-            <input id="SearchValue" name="SearchValue" type="text" />
-            <br />
-            <input type="submit" id="SearchBtn" value="Search" />
-
+            <a href="@Url.Action("Index")"><input type="button" value="Danh Sách Sản Phẩm" class="btn btn-default" /></a>
         </div>
     </div>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Mã Sản Phẩm
-            </th>
-            <th>
-                Tên Sản Phẩm
-            </th>
-            <th>
-                Đơn Giá
-            </th>
-            <th>
-                Hình Ảnh
-            </th>
-            <th>
-                Loại Sản Phẩm
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="DataSearching">
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaSP)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TenSP)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DonGia)
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+item.HinhAnh)" style="width:100px;height:150px" alt="">
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LoaiSanPham.TenLoai)
-                </td>
-                <td>
-                    @Html.ActionLink("Sửa Thông Tin", "ChinhSuaSanPham", new { @id = item.MaSP }) |
-                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
-                    @Html.ActionLink("Xoá Sản Phẩm", "XoaSanPham", new { @id = item.MaSP })
-                </td>
-            </tr>
-        }
-    </tbody>
-
-
-</table>
-
-
-<div id="PageList" class="navigation col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
-    <ul class="pagination">
-        <content>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</content>
-        <content class="">
-            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
-        </content>
-    </ul>
-</div>
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <a href="@Url.Action("Index")"><input type="button" value="Danh Sách Sản Phẩm" class="btn btn-default" /></a>
-    </div>
-</div>
-
 @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
 <script src="~/Areas/Admin/Content/js/jquery.min.js"></script>
+
 <script>
-    $(document).ready(function () {
-        $("#SearchBtn").click(function () {
-            var SearchBy = $("#SearchBy").val();
-            var SearchValue = $("#SearchValue").val();
-            var SetData = $("#DataSearching");
-            var PageList = $("#PageList");
-            SetData.html("");
-            PageList.html("");
+    //$(document).ready(function () {
+    //    $("#SearchBtn").click(function () {
+    //        var SearchValue = $("#SearchValue").val();
+    //        var SearchBy = $("#SearchBy").val();
+    //        $.ajax({
+    //            type: "GET",
+    //            url: "/Admin/QuanLySanPham/SearchingData",
+    //            data: {
+    //                'SearchValue': SearchValue,
+    //                'SearchBy': SearchBy,
+    //            },
+    //            dataType: "html",
+    //            success: function (response) {
+    //                debugger;
+    //                $("#admin-template").html("");
+    //                $("#admin-template").html(response);
+    //            }
+    //        });
 
-            $.ajax({
-                type: "POST",
-                url: "/QuanLySanPham/GetSearchingData?SearchBy=" + SearchBy + "&SearchValue=" + SearchValue,
-                contentType: "html",
-                success: function (result) {
-                    if (result.length == 0) {
-                        SetData.append('No Match Data')
-                    }
-                    else {
-                        $.each(result, function (index, value) {
-                            var Data = "<tr>" +
-                                "<td>" + value.MaSP + "</td>" +
-                                "<td>" + value.TenSP + "</td>" +
-                                "<td>" + value.DonGia + "</td>" +
-                                "<td> <img src='/Content/HinhAnh/SanPham/" + value.HinhAnh + "' style='width: 100px; height: 150px' alt=''></td>" +
-                                "<td>" + value.LoaiSanPham.TenLoai + "</td>" +
-                                "</tr>";
-                            SetData.append(Data);
-                        });
-                    }
-                }
-            });
+    //    });
 
-        });
-    });
+
+
+    //$(document).ready(function () {
+
+    //    $("#SearchBtn").click(function () {
+    //        debugger;
+    //        let categoryID = parseInt($("#category-search").val());
+    //        let productName = $("#SearchValue").val();
+    //        let PriceFrom = $("#PriceFrom").val();
+    //        let PriceTo = $("#PriceTo").val();
+    //        $("#link-next-page").html("");
+    //        $("#link-next-page").html($("#list-search-san-pham").html());
+    //        /* $("#list-all-san-pham").hide();*/
+    //        /* $("#list-search-san-pham").show();*/
+    //        if (categoryID == 0 && !productName && !PriceFrom && !PriceTo) {
+    //            return;
+    //        }
+    //        //else {
+    //        //    $("#list-all-san-pham").hide();
+    //        //    $("#list-search-san-pham").show();
+    //        //}
+    //    });
+    //    $("#list-search-san-pham").click(function () {
+    //        $("#list-all-san-pham").hide();
+    //        $("#list-search-san-pham").show();
+    //    });
+
+    //});
+
+
+
+
 </script>
+
+@*<script>
+        $(document).ready(function () {
+            $("#SearchBtn").click(function () {
+                var SearchBy = $("#SearchBy").val();
+                var SearchValue = $("#SearchValue").val();
+                var SetData = $("#DataSearching");
+                var PageList = $("#PageList");
+                SetData.html("");
+                PageList.html("");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/QuanLySanPham/GetSearchingData?SearchBy=" + SearchBy + "&SearchValue=" + SearchValue,
+                    contentType: "html",
+                    success: function (result) {
+                        if (result.length == 0) {
+                            SetData.append('No Match Data')
+                        }
+                        else {
+                            $.each(result, function (index, value) {
+                                var Data = "<tr>" +
+                                    "<td>" + value.MaSP + "</td>" +
+                                    "<td>" + value.TenSP + "</td>" +
+                                    "<td>" + value.DonGia + "</td>" +
+                                    "<td> <img src='/Content/HinhAnh/SanPham/" + value.HinhAnh + "' style='width: 100px; height: 150px' alt=''></td>" +
+                                    "<td>" + value.LoaiSanPham.TenLoai + "</td>" +
+                                    "</tr>";
+                                SetData.append(Data);
+                            });
+                        }
+                    }
+                });
+
+            });
+        });
+    </script>*@

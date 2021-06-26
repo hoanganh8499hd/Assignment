@@ -10,10 +10,6 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
         // GET: Admin/LoginAdmin
         public ActionResult Index()
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin");
-            }
             return View();
         }
         [HttpGet]

@@ -2,15 +2,11 @@
 
 namespace WebsiteBanGiay.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         // GET: Admin/Home
         public ActionResult Index()
         {
-            if (Session["Admin"] == null)
-            {
-                return RedirectToAction("LoginAdmin", "LoginAdmin");
-            }
             return View();
         }
     }

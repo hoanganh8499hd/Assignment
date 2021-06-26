@@ -1,0 +1,81 @@
+﻿
+@using WebsiteBanGiay.Models
+@using PagedList.Mvc;
+@model PagedList.IPagedList<SanPham>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mã Sản Phẩm
+            </th>
+            <th>
+                Tên Sản Phẩm
+            </th>
+            <th>
+                Đơn Giá
+            </th>
+            <th>
+                Hình Ảnh
+            </th>
+            <th>
+                Loại Sản Phẩm
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="DataSearching">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td id="id-product" data-id="@item.MaSP">
+                    @Html.DisplayFor(modelItem => item.MaSP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenSP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DonGia)
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/HinhAnh/SanPham/"+item.HinhAnh)" style="width:100px;height:150px" alt="">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoaiSanPham.TenLoai)
+                </td>
+                <td>
+                    @*<button id="edit-product"> Sua thong tin </button>*@
+                    <a href="/Admin/QuanLySanPham/ChinhSuaSanPham/?id=@item.MaSP"> Sửa Thông Tin</a>
+                    @*@Html.ActionLink("Sửa Thông Tin", "ChinhSuaSanPham","QuanLySanPham", new { area = "Admin"  }, new { @id = item.MaSP })*@ |
+                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                    @*@Html.ActionLink("Xoá Sản Phẩm", "XoaSanPham", new { @id = item.MaSP })*@
+                    <a href="/Admin/QuanLySanPham/XoaSanPham/?id=@item.MaSP"> Xoá Sản Phẩm</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="PageList" class="navigation col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+    <ul class="pagination">
+        <content>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</content>
+        <content id="link-next-page">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+        </content>
+    </ul>
+</div>
+
+<script>
+    function EditProduct(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Admin/QuanLySanPham/ChinhSuaSanPham",
+            data: { 'id': id },
+            dataType: "html",
+            success: function (response) {
+                $("#admin-template").html("");
+                $("#admin-template").html(response);
+            }
+        });
+    }
+</script>

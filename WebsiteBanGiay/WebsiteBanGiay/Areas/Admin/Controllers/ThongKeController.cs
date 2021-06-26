@@ -17,6 +17,7 @@ namespace WebsiteBanGiay.Areas.Admin.Controllers
             {
                 return RedirectToAction("LoginAdmin", "LoginAdmin");
             }
+            ViewBag.PeopleOnline = HttpContext.Application["PeopleOnline"].ToString();
             //ViewBag.TongDoangThu = ThongKeTongDoanhThu();
             return View();
         }
